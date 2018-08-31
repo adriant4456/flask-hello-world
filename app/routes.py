@@ -3,7 +3,7 @@ from app.update import update_folder_list
 from app.change import change
 import json
 from app import app
-
+from app.forms import MaterialForm
 
 @app.route('/')
 @app.route('/index')
@@ -22,4 +22,9 @@ def change_folder(folder):
     print('ran folder?')
     folder_list = update_folder_list()
     return render_template('iw.html', folder_list=folder_list)
+
+@app.route('/sap')
+def handle_sap():
+    form = MaterialForm()
+    return render_template('sap.html', form=form)
     

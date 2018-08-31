@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block activenav %}
-<li role="presentation" class = "active"><a href="#">InventorWork Manager</a></li>
-<li role="presentation"><a href="/sap">SAP Automation</a></li>
+<li role="presentation"><a href="#">InventorWork Manager</a></li>
+<li role="presentation" class="active"><a href="#">SAP Automation</a></li>
 {% endblock %}
 
 {% block content %}
@@ -12,13 +12,17 @@
 	<div class="col-md-12" align="center">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">Current InventorWork</h3>
+				<h3 class="panel-title">Auto SAP</h3>
 			</div>
 			<div class="panel-body">
+				
+				<div class="input-group">
+					<span class = "input-group-addon" id="basic-addon1">{{ form.material.label }}</span>
+					{{form.material(size=32) }}
+					[[ form.hidden_tag() }}
+				</div>
 				<div class="btn-group-vertical" role="group" aria-label="a">
-				{% for item in folder_list %}
-					<button type="button" class="btn btn-default"> <a href="/iw/{{item}}"> {{item}} </a> </button>
-				{% endfor %}
+					{{ form.submit() }}
 				</div>
 			</div>
 		</div>

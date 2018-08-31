@@ -83,3 +83,21 @@ def open_inv():
     print(p.poll() == None);
     time.sleep(5);
     print(p.poll() == None);
+
+def rename():
+    txtpath = 'C:\\InventorWork\\folder_name.txt'
+    folder_txt = open(txtpath)
+    source_name = folder_txt.read()
+    folder_txt.close()
+    time.sleep(1)
+    result = False
+    #loading window for rename, if folder is locked
+    while not result:
+        try:
+            os.rename('C:\\InventorWork', 'C:\\' + source_name)
+            print('Renamed InventorWork to ' + source_name)
+            result = True
+        except PermissionError:
+            time.sleep(0.5)
+            continue
+    return True
