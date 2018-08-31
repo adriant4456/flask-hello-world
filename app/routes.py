@@ -23,8 +23,10 @@ def change_folder(folder):
     folder_list = update_folder_list()
     return render_template('iw.html', folder_list=folder_list)
 
-@app.route('/sap')
+@app.route('/sap', methods=['GET', 'POST'])
 def handle_sap():
     form = MaterialForm()
+    if form.validate_on_submit():
+        print(form.material.data)
     return render_template('sap.html', form=form)
     
