@@ -3,7 +3,8 @@ from app.update import update_folder_list
 from app.change import change
 import json
 from app import app
-from app.forms import MaterialForm
+from app.forms import SapForm
+from app.sap import plot_struc, mbom
 
 @app.route('/')
 @app.route('/index')
@@ -25,8 +26,13 @@ def change_folder(folder):
 
 @app.route('/sap', methods=['GET', 'POST'])
 def handle_sap():
-    form = MaterialForm()
+    form = SapForm()
     if form.validate_on_submit():
-        print(form.material.data)
+        if form.plotstruc.data:
+            print('ran plotstruc')
+            #plot_struc(form.material.data)
+        elif form.mbom.data:
+            print('ran mbom')
+            #mbom(form.material.data)
     return render_template('sap.html', form=form)
     
