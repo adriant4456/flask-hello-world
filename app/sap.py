@@ -22,6 +22,9 @@ def mbom(material):
     pyautogui.typewrite('3010')
     pyautogui.hotkey('f8')
     waitforwindow('Display Multilevel BOM')
+    material = str(material)
+    if not os.path.isdir(f"C:\\Users\\atai\\Desktop\\{material}"):
+        os.mkdir(f"C:\\Users\\atai\\Desktop\\{material}")
     time.sleep(4)
     pyautogui.hotkey('ctrl', 'shift', 'f9')
     time.sleep(1)
@@ -104,7 +107,8 @@ def plot_struc(material):
         print('Can\'t find files')
         exit()
     folder_dir = 'C:\\Users\\atai\\Desktop\\' + folder_name
-    os.mkdir(folder_dir)
+    if not os.path.isdir(f"C:\\Users\\atai\\Desktop\\{material}"):
+        os.mkdir(folder_dir)
     for i in modified_list:
         shutil.move('C:\\Temp\\' + i, folder_dir)
     pyautogui.hotkey('up')
@@ -159,7 +163,6 @@ def plot_struc(material):
             if str(material) in i:
                 out = True
                 break
-        time.sleep(0.5)
         if out:
             break
     shutil.move('C:\\Users\\atai\\Documents\\SAP\\SAP GUI\\' + str(material) + '.MHTML', folder_dir)

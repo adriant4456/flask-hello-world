@@ -17,15 +17,10 @@ def change(folder):
         print('no txt file')
         raise LookupError('Cannot find folder_name.txt')
     #check for folder_name in destination folder
-
-    #TO IMPLEMENT
-    '''
     if os.path.isfile(destination_path + '\\' + 'folder_name.txt'):
         pass
     else:
         no_proj(None, None, folder)     #create folder_name.txt with folder as name
-
-    '''
     iw_change = 'C:\\' + folder
     if os.path.exists(iw_change):
         if kill():
@@ -44,6 +39,19 @@ def change(folder):
         else:
             print('inventor not closed')
             raise OSError('Inventor not closed')
+
+def make(project,machine):
+    if kill():
+        if rename():
+            newIW(project, machine)
+            return True
+        else:
+            return False
+    else:
+        return False
+    
+
+##Close current inventor session
 
 def kill():
     handle = WindowEnumerate()
@@ -84,6 +92,9 @@ def open_inv():
     time.sleep(5);
     print(p.poll() == None);
 
+
+
+#Rename current inventorwork folder to match folder_name.txt
 def rename():
     txtpath = 'C:\\InventorWork\\folder_name.txt'
     folder_txt = open(txtpath)
@@ -101,3 +112,55 @@ def rename():
             time.sleep(0.5)
             continue
     return True
+
+
+def newIW(project, machine):
+    p_name = 'InventorWork_' + project.replace(' ', '') + '_' + machine.replace(' ', '') # strips input spaces formates to _project_machine
+    batf = 'M:\\Project Engineering\\ENGDATA\\Reference Data\\Dev and Training Resc\\cad\\30 Inventor\\New InventorWork.bat'
+    os.startfile(batf)         #inventor must be opened to generate project file in IW
+    time.sleep(2)       #sleep buffer to make sure project file is generated, not sure if required?
+    no_proj(project,machine, None)
+    open_inv()
+    return 'done newIW'
+
+def no_proj(project,machine, folder):
+    #if folder name input, generate folder_name.txt file in folder input
+    if folder != None:
+        destination_path = 'C:\\' + folder
+        open(destination_path + '\\folder_name.txt', 'a+')
+        folder_txt = open(destination_path + '\\folder_name.txt', 'w')
+        folder_txt.write(folder)
+        folder_txt.close
+    #else generate txt from project and machine input
+    else:
+        open('C:\\InventorWork\\folder_name.txt', 'a+')
+        folder_txt = open('C:\\InventorWork\\folder_name.txt', 'w')
+        folder_txt.write('InventorWork_' + project + '_' + machine)
+        folder_txt.close
+    
+def check_valid_folder_name(name):
+    for i in name:
+        if ord(i) > 64 and ord(i) < 91:
+            continue
+        if ord(i) > 96 and ord(i) < 123:
+            continue
+        if ord(i) > 47 and ord(i) < 58:
+            continue
+        if ord(i) == 95 or ord(i) == 32:
+            continue
+        else:
+            return False
+    return True
+
+def rename_folder(project: str, machine:str, folder:str) -> None:
+    with open(f"C:\\{folder}\\folder_name.txt", 'w+') as txtfile:
+        txtfile.write(f"InventorWork_{project}_{machine}")
+    if folder != 'InventorWork':
+        os.rename(f"C:\\{folder}", f"C:\\InventorWork_{project}_{machine}")
+    else:
+        pass
+
+
+        
+        
+        
