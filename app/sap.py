@@ -156,6 +156,7 @@ def plot_struc(material):
     pyautogui.hotkey('enter')
     pyautogui.hotkey('enter')
     waitforwindow('Save As')
+    time.sleep(1)
     pyautogui.typewrite(str(material) + '.MHTML')
     while True:
         out = False
@@ -166,6 +167,8 @@ def plot_struc(material):
         if out:
             break
     shutil.move('C:\\Users\\atai\\Documents\\SAP\\SAP GUI\\' + str(material) + '.MHTML', folder_dir)
+
+    
         
         
     

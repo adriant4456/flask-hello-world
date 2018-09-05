@@ -14,8 +14,7 @@ def index():
 @app.route('/iw')
 def iw():
     folder_list = update_folder_list()
-    form = IWForm()
-    
+    #form = IWForm()
     return render_template('iw.html', folder_list=folder_list)
 
 @app.route('/iw/new')
