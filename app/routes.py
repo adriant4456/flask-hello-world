@@ -3,7 +3,7 @@ from app.update import update_folder_list
 from app.iw import change, make
 import json
 from app import app
-from app.forms import SapForm
+from app.forms import SapForm, IWForm, IWFolderListForm
 from app.sap import plot_struc, mbom
 
 @app.route('/')
@@ -11,16 +11,17 @@ from app.sap import plot_struc, mbom
 def index():
     return render_template('index.html')
 
-@app.route('/iw')
+@app.route('/iw', methods=['GET', 'POST'])
 def iw():
     folder_list = update_folder_list()
-    #form = IWForm()
-    return render_template('iw.html', folder_list=folder_list)
-
-@app.route('/iw/new')
-def new_folder():
-    print('new folder?')
-    return render_template('iw.html', folder_list=folder_list)
+    form = IWForm()
+    folder_form = IWFolderListForm()
+    for i in folder_list:
+        setattr(IWFolderListForm, i, SubmitField(i))
+    if form.validate_on_submit():
+        make(form.project.data, form.machine.data)
+        print(form.project.data, form.machine.data)
+    return render_template('iw.html', folder_list=folder_list, form=form)
 
 @app.route('/iw/<folder>')
 def change_folder(folder):
